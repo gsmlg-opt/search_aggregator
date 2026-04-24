@@ -1,0 +1,57 @@
+general:
+  instance_name: SearchAggregator
+  default_locale: en-US
+  request_timeout_ms: 5000
+  contact_url: false
+
+search:
+  result_limit: 8
+  max_limit: 20
+  autocomplete: off
+  safe_search: 0
+
+ui:
+  theme: dawn
+  default_category: general
+  categories_as_tabs:
+    general:
+      - general
+    tech:
+      - general
+      - tech
+
+browser_simulator:
+  enabled: false
+  pool_size: 2
+  export_path:
+
+engines:
+  - name: wikipedia
+    engine: wikipedia
+    shortcut: wp
+    disabled: false
+    mode: http
+    timeout_ms: 3000
+    categories:
+      - general
+    base_url: https://en.wikipedia.org/w/api.php
+  - name: hacker_news
+    engine: hacker_news
+    shortcut: hn
+    disabled: false
+    mode: http
+    timeout_ms: 3000
+    categories:
+      - general
+      - tech
+    base_url: https://hn.algolia.com/api/v1/search
+  - name: stack_overflow
+    engine: stack_overflow
+    shortcut: so
+    disabled: false
+    mode: http
+    timeout_ms: 3000
+    categories:
+      - general
+      - tech
+    base_url: https://api.stackexchange.com/2.3/search
