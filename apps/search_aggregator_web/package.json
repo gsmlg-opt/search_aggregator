@@ -1,0 +1,14 @@
+{
+  "name": "search_aggregator_web",
+  "private": true,
+  "dependencies": {
+    "@duskmoon-dev/art-elements": "latest",
+    "@duskmoon-dev/core": "latest",
+    "@duskmoon-dev/css-art": "latest",
+    "@duskmoon-dev/elements": "latest",
+    "tailwindcss": "4.1.11"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "4.1.11"
+  }
+}

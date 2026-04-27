@@ -31,6 +31,26 @@ config :phoenix, :json_library, Jason
 
 config :search_aggregator, :settings_path, Path.expand("../settings.yaml", __DIR__)
 
+config :bun,
+  version: "1.3.4",
+  path: System.get_env("MIX_BUN_PATH") || System.find_executable("bun"),
+  search_aggregator_web: [
+    args:
+      ~w(build assets/js/app.js --outdir=priv/static/assets --external /fonts/* --external /images/*),
+    cd: Path.expand("../apps/search_aggregator_web", __DIR__)
+  ]
+
+config :tailwind,
+  version: "4.1.11",
+  version_check: false,
+  path:
+    System.get_env("MIX_TAILWIND_PATH") ||
+      Path.expand("../apps/search_aggregator_web/node_modules/.bin/tailwindcss", __DIR__),
+  search_aggregator_web: [
+    args: ~w(--input=assets/css/app.css --output=priv/static/assets/app.css),
+    cd: Path.expand("../apps/search_aggregator_web", __DIR__)
+  ]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

@@ -84,8 +84,10 @@ defmodule SearchAggregatorWeb do
 
       # HTML escaping functionality
       import Phoenix.HTML
-      # Core UI components
-      import SearchAggregatorWeb.CoreComponents
+
+      # DuskMoon UI components
+      use PhoenixDuskmoon.Component
+      use PhoenixDuskmoon.ArtComponent
 
       # Common modules used in templates
       alias Phoenix.LiveView.JS

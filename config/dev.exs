@@ -12,7 +12,10 @@ config :search_aggregator_web, SearchAggregatorWeb.Endpoint,
   code_reloader: true,
   debug_errors: true,
   secret_key_base: "fnKoDS630Dq3g/q+6FsbZgjTyq3zzTbTJOwZUYo2l7OMSBj0TK4N8dx3rHmbgMNN",
-  watchers: []
+  watchers: [
+    tailwind: {Tailwind, :install_and_run, [:search_aggregator_web, ~w(--watch)]},
+    bun: {Bun, :install_and_run, [:search_aggregator_web, ~w(--sourcemap=inline --watch)]}
+  ]
 
 # ## SSL Support
 #

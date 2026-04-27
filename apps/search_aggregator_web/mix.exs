@@ -42,6 +42,9 @@ defmodule SearchAggregatorWeb.MixProject do
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 1.1.0"},
+      {:phoenix_duskmoon, "~> 9.0"},
+      {:bun, "~> 1.4", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
       {:lazy_html, ">= 0.1.0"},
       {:gettext, "~> 1.0"},
       {:jason, "~> 1.2"},
@@ -55,7 +58,13 @@ defmodule SearchAggregatorWeb.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get"]
+      setup: ["deps.get"],
+      "assets.deploy": [
+        "phx.digest.clean",
+        "tailwind search_aggregator_web --minify",
+        "bun search_aggregator_web --minify",
+        "phx.digest"
+      ]
     ]
   end
 end

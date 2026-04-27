@@ -29,3 +29,6 @@ search_aggregator-*.tar
 *.db
 *.db-*
 
+# JavaScript dependencies installed by Bun/npm.
+/node_modules/
+apps/*/node_modules/
