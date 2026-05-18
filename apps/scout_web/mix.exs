@@ -45,7 +45,7 @@ defmodule ScoutWeb.MixProject do
       {:phoenix_duskmoon, "~> 9.0"},
       {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"},
-      {:bun, "~> 1.4", runtime: Mix.env() == :dev},
+      {:bun, "~> 2.0", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
       {:lazy_html, ">= 0.1.0"},
       {:gettext, "~> 1.0"},
