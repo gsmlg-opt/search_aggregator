@@ -152,6 +152,39 @@ code, pre {
   font-size: 0.9rem;
 }
 
+.job-output {
+  margin-top: 10px;
+  border-top: 1px solid var(--color-outline-variant);
+}
+
+.job-output .collapse-trigger {
+  min-height: 34px;
+  padding: 8px 0 0;
+  color: var(--color-on-surface);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.job-output-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.job-output .collapse-inner {
+  padding: 10px 0 0;
+}
+
+.job-markdown {
+  display: block;
+  max-height: 420px;
+  overflow: auto;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 6px;
+  background: var(--color-surface);
+  padding: 14px;
+}
+
 .agent-row {
   display: grid;
   gap: 8px;

@@ -1,4 +1,5 @@
 import "phoenix_html";
+import "@duskmoon-dev/elements/register";
 import {Socket} from "phoenix";
 import {LiveSocket} from "phoenix_live_view";
 import * as DuskmoonHooks from "../../../../deps/phoenix_duskmoon/assets/js/hooks/index.js";

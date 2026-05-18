@@ -123,6 +123,26 @@ defmodule ScoutWeb.DashboardLive do
                   </span>
                 </div>
                 <p :if={job[:error]} class="job-error">{job.error.message}</p>
+                <.dm_collapse
+                  :if={markdown = job_markdown(job)}
+                  id={"job-output-#{job.job_id}"}
+                  class="job-output"
+                  variant="divider"
+                  animation="slide"
+                  speed="fast"
+                >
+                  <:trigger>
+                    <span class="job-output-toggle">Fetch content</span>
+                  </:trigger>
+                  <:content>
+                    <.dm_markdown
+                      id={"job-markdown-#{job.job_id}"}
+                      class="job-markdown"
+                      content={markdown}
+                      theme="auto"
+                    />
+                  </:content>
+                </.dm_collapse>
               </article>
             </div>
           </div>
@@ -176,4 +196,21 @@ defmodule ScoutWeb.DashboardLive do
   defp status_class("queued"), do: "status-queued"
   defp status_class("retrying"), do: "status-running"
   defp status_class(_status), do: "status-error"
+
+  defp job_markdown(%{result: %{markdown: markdown}}) when is_binary(markdown) do
+    present_string(markdown)
+  end
+
+  defp job_markdown(%{result: %{"markdown" => markdown}}) when is_binary(markdown) do
+    present_string(markdown)
+  end
+
+  defp job_markdown(_job), do: nil
+
+  defp present_string(value) do
+    case String.trim(value) do
+      "" -> nil
+      _content -> value
+    end
+  end
 end
