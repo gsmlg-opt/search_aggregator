@@ -45,6 +45,11 @@ defmodule ScoutWeb.DashboardLive do
   end
 
   @impl true
+  def handle_event("theme_changed", %{"theme" => _theme}, socket) do
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_info({:job_updated, job}, socket) do
     {:noreply,
      socket
