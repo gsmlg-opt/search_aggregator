@@ -117,7 +117,32 @@ defmodule ScoutWeb.DashboardLive do
               <article :for={{id, job} <- @streams.jobs} id={id} class="job-row">
                 <div class="job-main">
                   <span class={["status-pill", status_class(job.status)]}>{job.status}</span>
-                  <a href={job.url} target="_blank" rel="noreferrer">{job.url}</a>
+                  <div class="flex-1 min-w-0">
+                    <a href={job.url} target="_blank" rel="noreferrer" class="block truncate">{job.url}</a>
+                  </div>
+                  <.dm_modal
+                    :if={markdown = job_markdown(job)}
+                    id={"job-content-#{job.job_id}"}
+                    size="full"
+                  >
+                    <:trigger>
+                      <.dm_btn variant="outline" size="xs">Fetch content</.dm_btn>
+                    </:trigger>
+                    <:title>
+                      <div class="flex items-center gap-2 pr-8">
+                        <span class={["status-pill", status_class(job.status)]}>{job.status}</span>
+                        <span class="truncate">{job.url}</span>
+                      </div>
+                    </:title>
+                    <:body>
+                      <.dm_markdown
+                        id={"job-markdown-modal-#{job.job_id}"}
+                        class="job-markdown-fullscreen"
+                        content={markdown}
+                        theme="auto"
+                      />
+                    </:body>
+                  </.dm_modal>
                 </div>
                 <div class="job-meta">
                   <span>attempt {job.attempt}/{job.max_attempts}</span>
@@ -128,26 +153,6 @@ defmodule ScoutWeb.DashboardLive do
                   </span>
                 </div>
                 <p :if={job[:error]} class="job-error">{job.error.message}</p>
-                <.dm_collapse
-                  :if={markdown = job_markdown(job)}
-                  id={"job-output-#{job.job_id}"}
-                  class="job-output"
-                  variant="divider"
-                  animation="slide"
-                  speed="fast"
-                >
-                  <:trigger>
-                    <span class="job-output-toggle">Fetch content</span>
-                  </:trigger>
-                  <:content>
-                    <.dm_markdown
-                      id={"job-markdown-#{job.job_id}"}
-                      class="job-markdown"
-                      content={markdown}
-                      theme="auto"
-                    />
-                  </:content>
-                </.dm_collapse>
               </article>
             </div>
           </div>

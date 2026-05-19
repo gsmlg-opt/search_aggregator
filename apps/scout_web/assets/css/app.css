@@ -124,9 +124,8 @@ code, pre {
 }
 
 .job-main {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 10px;
+  display: flex;
+  gap: 12px;
   align-items: center;
 }
 
@@ -183,6 +182,13 @@ code, pre {
   border-radius: 6px;
   background: var(--color-surface);
   padding: 14px;
+}
+
+.job-markdown-fullscreen {
+  display: block;
+  height: calc(100vh - 200px);
+  overflow: auto;
+  padding: 20px;
 }
 
 .agent-row {
