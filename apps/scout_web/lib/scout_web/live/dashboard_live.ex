@@ -125,8 +125,10 @@ defmodule ScoutWeb.DashboardLive do
                     id={"job-content-#{job.job_id}"}
                     size="full"
                   >
-                    <:trigger>
-                      <.dm_btn variant="outline" size="xs">Fetch content</.dm_btn>
+                    <:trigger :let={dialog_id}>
+                      <.dm_btn variant="secondary" size="xs" onclick={"#{dialog_id}.show()"}>
+                        Show content
+                      </.dm_btn>
                     </:trigger>
                     <:title>
                       <div class="flex items-center gap-2 pr-8">
