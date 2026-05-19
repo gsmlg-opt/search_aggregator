@@ -51,7 +51,12 @@ defmodule Scout.Umbrella.MixProject do
     [
       # run `mix setup` in all child apps
       setup: ["cmd mix setup"],
-      precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "test"]
+      precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "test"],
+      "phx.server": ["do --app scout_web phx.server"],
+      "agent.run": fn _ ->
+        System.put_env("SCOUT_AGENT_ENABLED", "true")
+        Mix.Task.run("do", ["--app", "scout_agent", "run", "--no-halt"])
+      end
     ]
   end
 

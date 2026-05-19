@@ -10,6 +10,7 @@ defmodule Scout.Server.JobManager do
   alias Scout.Settings
 
   @topic "scout:jobs"
+  @sweep_interval_ms 5_000
 
   def start_link(_opts) do
     GenServer.start_link(__MODULE__, %{jobs: %{}, waiters: %{}}, name: __MODULE__)
@@ -28,7 +29,10 @@ defmodule Scout.Server.JobManager do
   end
 
   @impl true
-  def init(state), do: {:ok, state}
+  def init(state) do
+    schedule_sweep()
+    {:ok, state}
+  end
 
   @impl true
   def handle_call({:submit, params}, _from, state) do
@@ -141,6 +145,27 @@ defmodule Scout.Server.JobManager do
         GenServer.reply(from, {:error, %{type: "timeout", message: "fetch timed out", retryable: true}})
         {:noreply, %{state | waiters: waiters}}
     end
+  end
+
+  def handle_info(:sweep, state) do
+    now = DateTime.utc_now()
+    default_timeout = Settings.get()["fetch"]["default_timeout_ms"]
+
+    state =
+      Enum.reduce(state.jobs, state, fn {job_id, entry}, acc ->
+        if entry.status in ["queued", "running"] and stale?(entry, now, default_timeout) do
+          # Mark as failed due to timeout
+          error = %{type: "timeout", message: "job timed out on server", retryable: true}
+          result = %Result{job_id: job_id, ok: false, url: entry.job.url, error: error}
+          {new_acc, _entry} = update_entry(acc, job_id, fn e -> apply_result(e, result) end)
+          new_acc
+        else
+          acc
+        end
+      end)
+
+    schedule_sweep()
+    {:noreply, state}
   end
 
   def handle_info({:retry, job_id}, state) do
@@ -289,4 +314,22 @@ defmodule Scout.Server.JobManager do
   end
 
   defp timestamp, do: DateTime.utc_now() |> DateTime.to_iso8601()
+
+  defp schedule_sweep do
+    Process.send_after(self(), :sweep, @sweep_interval_ms)
+  end
+
+  defp stale?(entry, now, default_timeout) do
+    timeout_ms = entry.job.timeout_ms || default_timeout
+    # We add a buffer of 5 seconds to server-side timeout to allow agent to report back
+    max_age_seconds = div(timeout_ms, 1000) + 5
+
+    case DateTime.from_iso8601(entry.updated_at) do
+      {:ok, updated_at, _offset} ->
+        DateTime.diff(now, updated_at) > max_age_seconds
+
+      _ ->
+        false
+    end
+  end
 end

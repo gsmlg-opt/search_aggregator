@@ -6,6 +6,7 @@ defmodule Scout.RabbitMQ do
   alias AMQP.{Basic, Channel, Connection, Queue}
   alias Scout.Fetch.{Job, Result}
   alias Scout.Settings
+  require Logger
 
   def enabled? do
     Settings.get()["rabbitmq"]["enabled"]
@@ -29,9 +30,11 @@ defmodule Scout.RabbitMQ do
 
   def open_channel do
     config = Settings.get()["rabbitmq"]
+    Logger.info("[RabbitMQ] Opening connection to #{config["url"]}")
 
     with {:ok, connection} <- Connection.open(config["url"]),
          {:ok, channel} <- Channel.open(connection) do
+      Logger.info("[RabbitMQ] Connection established and channel opened")
       declare_known_queues(channel)
       {:ok, connection, channel}
     end

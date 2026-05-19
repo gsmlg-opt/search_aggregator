@@ -2,6 +2,7 @@ defmodule Scout.Agent.Heartbeat do
   @moduledoc false
 
   use GenServer
+  require Logger
 
   alias Scout.RabbitMQ
   alias Scout.Settings
@@ -21,6 +22,7 @@ defmodule Scout.Agent.Heartbeat do
     heartbeat = Scout.Agent.status()
 
     if RabbitMQ.enabled?() do
+      Logger.debug("[Agent] Sending heartbeat to RabbitMQ")
       _ = RabbitMQ.publish_heartbeat(heartbeat)
     end
 

@@ -36,3 +36,5 @@ search_aggregator-*.tar
 /node_modules/
 apps/*/node_modules/
 
+# Local settings
+settings.local.yaml

@@ -81,7 +81,7 @@ defmodule Scout.Agent.LightpandaPool do
   end
 
   @impl true
-  def terminate_worker(_reason, _worker_state, _pool_state), do: :ok
+  def terminate_worker(_reason, _worker_state, pool_state), do: {:ok, pool_state}
 
   defp ensure_table do
     case :ets.whereis(@table) do
