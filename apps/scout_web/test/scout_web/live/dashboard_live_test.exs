@@ -38,8 +38,8 @@ defmodule ScoutWeb.DashboardLiveTest do
 
     {:ok, view, html} = live(conn, ~p"/")
 
-    assert has_element?(view, "#job-#{job_id} .job-output-toggle", "Fetch content")
-    assert has_element?(view, "#job-#{job_id} .job-output el-dm-markdown.job-markdown")
+    assert has_element?(view, "#job-#{job_id}", "Show content")
+    assert has_element?(view, "#job-content-#{job_id} el-dm-markdown.job-markdown-fullscreen")
     assert html =~ "# Example Documentation"
     assert html =~ "Fetched https://example.com/docs"
   end
