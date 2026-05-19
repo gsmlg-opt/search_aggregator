@@ -126,7 +126,7 @@ defmodule ScoutWeb.DashboardLive do
                     size="full"
                   >
                     <:trigger :let={dialog_id}>
-                      <.dm_btn variant="secondary" size="xs" onclick={"#{dialog_id}.show()"}>
+                      <.dm_btn variant="secondary" size="xs" onclick={"document.getElementById('#{dialog_id}').show()"}>
                         Show content
                       </.dm_btn>
                     </:trigger>
