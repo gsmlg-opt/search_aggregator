@@ -125,8 +125,8 @@ defmodule ScoutWeb.DashboardLive do
                     id={"job-content-#{job.job_id}"}
                     size="full"
                   >
-                    <:trigger :let={dialog_id}>
-                      <.dm_btn variant="secondary" size="xs" onclick={"document.getElementById('#{dialog_id}').show()"}>
+                    <:trigger :let={_dialog_id}>
+                      <.dm_btn variant="secondary" size="xs" onclick="this.nextElementSibling.show()">
                         Show content
                       </.dm_btn>
                     </:trigger>
