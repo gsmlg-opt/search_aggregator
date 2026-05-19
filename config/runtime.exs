@@ -24,8 +24,8 @@ settings_local_path = Path.expand("../settings.local.yaml", __DIR__)
 settings_default_path = Path.expand("../settings.yaml", __DIR__)
 
 settings_path =
-  System.get_env("SETTINGS_PATH") ||
-    (if File.exists?(settings_local_path), do: settings_local_path, else: settings_default_path)
+  System.get_env("SETTINGS_PATH") || Application.get_env(:scout, :settings_path) ||
+    if File.exists?(settings_local_path), do: settings_local_path, else: settings_default_path
 
 config :scout, :settings_path, settings_path
 

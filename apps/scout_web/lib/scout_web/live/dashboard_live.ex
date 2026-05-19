@@ -118,12 +118,14 @@ defmodule ScoutWeb.DashboardLive do
                 <div class="job-main">
                   <span class={["status-pill", status_class(job.status)]}>{job.status}</span>
                   <div class="flex-1 min-w-0">
-                    <a href={job.url} target="_blank" rel="noreferrer" class="block truncate">{job.url}</a>
+                    <a href={job.url} target="_blank" rel="noreferrer" class="block truncate">
+                      {job.url}
+                    </a>
                   </div>
                   <.dm_modal
                     :if={markdown = job_markdown(job)}
                     id={"job-content-#{job.job_id}"}
-                    size="full"
+                    size="xl"
                   >
                     <:trigger :let={_dialog_id}>
                       <.dm_btn variant="secondary" size="xs" onclick="this.nextElementSibling.show()">
