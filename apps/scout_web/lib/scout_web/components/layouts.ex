@@ -35,13 +35,7 @@ defmodule ScoutWeb.Layouts do
 
   def app(assigns) do
     ~H"""
-    <.dm_appbar title="Scout" sticky>
-      <:logo>
-        <a href="/" class="flex items-center gap-2">
-          <img src={~p"/images/logo.svg"} width="36" alt="logo" />
-          <span class="text-sm font-semibold">v{Application.spec(:phoenix, :vsn)}</span>
-        </a>
-      </:logo>
+    <.dm_appbar title="Scout" title_to={~p"/"} class="appbar-primary" sticky>
       <:menu>
         <.link navigate={~p"/"} class="text-primary-content/80 hover:text-primary-content">
           Home
