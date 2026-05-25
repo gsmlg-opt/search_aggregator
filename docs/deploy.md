@@ -15,10 +15,12 @@ Use the Docker build workflow for published images:
 gh workflow run docker-build.yml \
   --ref main \
   -f git_ref=main \
-  -f docker_image_tag=v0.1.0
+  -f docker_image_tag=latest
 ```
 
-The workflow also runs when a GitHub release is published. To build locally:
+The workflow also runs on pushes to `main` and when a GitHub release is
+published. Every Docker workflow run publishes `latest`; release and manual runs
+also publish the requested version tag. To build locally:
 
 ```sh
 docker build -f Dockerfile.server -t ghcr.io/gsmlg-dev/scout-server:TAG .

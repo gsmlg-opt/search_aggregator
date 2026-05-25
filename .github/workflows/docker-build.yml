@@ -1,6 +1,9 @@
 name: Docker Build
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       git_ref:
@@ -11,6 +14,7 @@ on:
       docker_image_tag:
         description: "Docker image tag to publish"
         required: true
+        default: "latest"
         type: string
   release:
     types:
@@ -29,8 +33,8 @@ env:
   REGISTRY: ghcr.io
   SERVER_IMAGE: ghcr.io/gsmlg-dev/scout-server
   AGENT_IMAGE: ghcr.io/gsmlg-dev/scout-agent
-  BUILD_REF: ${{ github.event_name == 'release' && github.event.release.tag_name || inputs.git_ref }}
-  IMAGE_TAG: ${{ github.event_name == 'release' && github.event.release.tag_name || inputs.docker_image_tag }}
+  BUILD_REF: ${{ github.event_name == 'release' && github.event.release.tag_name || github.event_name == 'workflow_dispatch' && inputs.git_ref || github.ref }}
+  IMAGE_TAG: ${{ github.event_name == 'release' && github.event.release.tag_name || github.event_name == 'workflow_dispatch' && inputs.docker_image_tag || 'latest' }}
 
 jobs:
   build:
@@ -72,5 +76,6 @@ jobs:
           push: true
           tags: |
             ${{ matrix.image }}:${{ env.IMAGE_TAG }}
+            ${{ matrix.image }}:latest
           cache-from: type=gha,scope=${{ matrix.name }}
           cache-to: type=gha,mode=max,scope=${{ matrix.name }}
