@@ -90,6 +90,9 @@ defmodule ScoutWeb.DashboardLive do
               <span class="metric-label">agents</span>
             </div>
           </div>
+          <.link href={~p"/logout"} method="delete" class="logout-link">
+            <.dm_btn variant="secondary" size="sm" type="button">Log out</.dm_btn>
+          </.link>
         </section>
 
         <section class="fetch-band">

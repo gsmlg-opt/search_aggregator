@@ -38,3 +38,4 @@ apps/*/node_modules/
 
 # Local settings
 settings.local.yaml
+auth.txt

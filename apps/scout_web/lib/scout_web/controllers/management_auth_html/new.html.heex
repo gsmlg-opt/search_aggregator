@@ -1,0 +1,20 @@
+<Layouts.app flash={@flash}>
+  <main class="auth-page">
+    <section class="auth-panel">
+      <p class="eyebrow">Scout Management</p>
+      <h1>Log in</h1>
+      <p class="auth-copy">Use a token from auth.txt on this Scout host.</p>
+
+      <.form for={@form} action={~p"/login"} method="post" class="auth-form">
+        <.dm_input
+          field={@form[:token]}
+          type="password"
+          label="Access token"
+          autocomplete="current-password"
+          required
+        />
+        <.dm_btn variant="primary" type="submit">Log in</.dm_btn>
+      </.form>
+    </section>
+  </main>
+</Layouts.app>

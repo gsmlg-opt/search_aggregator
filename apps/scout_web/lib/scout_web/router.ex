@@ -10,6 +10,10 @@ defmodule ScoutWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :management_auth do
+    plug ScoutWeb.ManagementAuth
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -17,7 +21,17 @@ defmodule ScoutWeb.Router do
   scope "/", ScoutWeb do
     pipe_through :browser
 
-    live "/", DashboardLive, :index
+    get "/login", ManagementAuthController, :new
+    post "/login", ManagementAuthController, :create
+    delete "/logout", ManagementAuthController, :delete
+  end
+
+  scope "/", ScoutWeb do
+    pipe_through [:browser, :management_auth]
+
+    live_session :management, on_mount: ScoutWeb.ManagementAuth do
+      live "/", DashboardLive, :index
+    end
   end
 
   scope "/api", ScoutWeb do

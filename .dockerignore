@@ -8,6 +8,7 @@ apps/*/node_modules/
 cover/
 doc/
 tmp/
+auth.txt
 erl_crash.dump
 *.ez
 *.db
